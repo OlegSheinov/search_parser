@@ -22,13 +22,13 @@ class Handler:
         self.fieldnames = ["current_page", "sub_page", "query"]
         self.timeout = ClientTimeout(total=10)
 
-    async def main(self):
+    async def main(self) -> None:
         async with ClientSession(headers=self.headers, connector=TCPConnector(limit=10),
                                  timeout=self.timeout) as session:
             tasks = [asyncio.create_task(self.search_recursive(session, link, depth=0)) for link in self.start_urls]
             await asyncio.gather(*tasks, return_exceptions=True)
 
-    async def write_to_csv(self, data_list):
+    async def write_to_csv(self, data_list) -> None:
         filename = f"output_{self.tag}.csv"
         async with aiofiles.open(filename, mode="a", encoding="utf-8", newline="") as csvfile:
             writer = AsyncDictWriter(csvfile, fieldnames=self.fieldnames, delimiter=";")
@@ -36,7 +36,7 @@ class Handler:
                 await writer.writeheader()
             await asyncio.gather(*[await writer.writerow(data) for data in data_list])
 
-    async def search_recursive(self, session: ClientSession, link, depth):
+    async def search_recursive(self, session: ClientSession, link, depth) -> None:
         parsed_link = urlparse(link)
         if link in self.visited_urls or depth > 2:
             return
