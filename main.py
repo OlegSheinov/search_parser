@@ -1,4 +1,5 @@
 import asyncio
+import random
 from urllib.parse import urlparse
 
 import aiofiles
@@ -39,6 +40,7 @@ class Parser:
                                  soup.find_all("div", class_="yuRUbf")]
                     self.all_links_from_google.extend(
                         [urlparse(item).scheme + f"://{urlparse(item).netloc}" for item in all_links])
+                    await asyncio.sleep(random.choice([0.1, 0.5]))
                 except TimeoutError as err:
                     print(err)
                     await session.close()

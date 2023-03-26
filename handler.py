@@ -1,6 +1,5 @@
 import asyncio
 import concurrent
-import csv
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
 from urllib.parse import urlparse, urljoin
