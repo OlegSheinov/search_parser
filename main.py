@@ -35,9 +35,9 @@ class Parser:
             "https": f"socks5h://{log_and_pass[0]}:{log_and_pass[1]}@{proxy}"
         }
 
-    async def parsing(self) -> None:
+    async def parsing(self, page: int = 1) -> None:
         with requests.Session() as session:
-            for page in range(1, 21):
+            for page in range(page, 21):
                 url = f"https://www.google.com/search?q={self.query}{f'&start={10 * (page - 1)}' if page > 1 else ''}"
                 try:
                     headers = Headers(
@@ -56,7 +56,7 @@ class Parser:
                             self.ignored_proxy.append(proxy)
                             print(f"Прокси - {proxy['http']} не работает в запросе {self.query} на {page} странице.\n"
                                   f"Меняю прокси")
-                            return await self.parsing()
+                            return await self.parsing(page)
                         print(f"Получаю данные со страницы - {url}")
                         data = response.content
                     soup = BeautifulSoup(data, "lxml")
