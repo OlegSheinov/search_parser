@@ -81,6 +81,7 @@ async def start(attr) -> None:
                 parser = Parser(row[0], attr)
                 await parser.get_all_proxy()
                 await parser.parsing()
+                await parser.parse_url()
             except BaseException as err:
                 print(f"Произошла ошибка в запросе - {row}\n{err}")
                 await parser.parse_url()
