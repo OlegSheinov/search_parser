@@ -54,8 +54,9 @@ class Parser:
                     with session.get(url) as response:
                         if response.status_code == 429:
                             self.ignored_proxy.append(proxy)
-                            print(f"Прокси - {proxy['http']} не работает в запросе {self.query} на {page} странице.\n"
-                                  f"Меняю прокси")
+                            print(
+                                f"Прокси - {proxy['http']} не работает в запросе {self.query} на {page - 1} странице.\n"
+                                f"Меняю прокси")
                             return await self.parsing(page)
                         print(f"Получаю данные со страницы - {url}")
                         data = response.content
